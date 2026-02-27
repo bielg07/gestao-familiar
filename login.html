@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyHub — Entrar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue:        #6b9fff;
+            --blue-light:  #eff4ff;
+            --blue-mid:    #d6e4ff;
+            --rose:        #ff8fab;
+            --rose-light:  #fff0f4;
+            --rose-mid:    #ffd6e3;
+            --mint:        #52c4a0;
+            --mint-light:  #edfaf5;
+            --mint-mid:    #b8ead8;
+            --peach:       #ffb347;
+            --peach-light: #fff7ed;
+            --purple:      #a78bfa;
+            --purple-light:#f5f3ff;
+            --text-1: #111827;
+            --text-2: #4b5563;
+            --text-3: #9ca3af;
+            --border: #e4e7ec;
+            --border-2: #edf0f4;
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --red: #fb7185;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* ── LADO ESQUERDO — ilustração ── */
+        .left-panel {
+            background: var(--text-1);
+            padding: 48px;
+            display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* blobs decorativos */
+        .left-panel::before {
+            content: '';
+            position: absolute; top: -120px; right: -120px;
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(107,159,255,0.15), transparent 65%);
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute; bottom: -100px; left: -80px;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,143,171,0.10), transparent 65%);
+        }
+
+        .left-brand {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; position: relative; z-index: 1;
+        }
+        .left-brand-icon {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: var(--blue);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1rem;
+        }
+        .left-brand-name { font-size: 0.95rem; font-weight: 600; color: white; }
+
+        .left-content {
+            flex: 1; display: flex; flex-direction: column;
+            justify-content: center; position: relative; z-index: 1;
+            padding: 48px 0;
+        }
+
+        .left-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.8rem; line-height: 1.15;
+            letter-spacing: -0.02em; color: white;
+            margin-bottom: 20px;
+        }
+        .left-title em { font-style: italic; color: var(--blue); }
+
+        .left-desc {
+            font-size: 0.9rem; color: rgba(255,255,255,0.55);
+            line-height: 1.7; max-width: 380px; margin-bottom: 48px;
+        }
+
+        /* Mini cards de features */
+        .left-features { display: flex; flex-direction: column; gap: 12px; }
+        .left-feature {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+        }
+        .left-feature-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
+        }
+        .left-feature-icon.blue   { background: rgba(107,159,255,0.15); color: var(--blue); }
+        .left-feature-icon.rose   { background: rgba(255,143,171,0.15); color: var(--rose); }
+        .left-feature-icon.mint   { background: rgba(82,196,160,0.15);  color: var(--mint); }
+        .left-feature-text { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+        .left-bottom {
+            position: relative; z-index: 1;
+        }
+        .left-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; color: rgba(255,255,255,0.4);
+            text-decoration: none; transition: 0.15s ease;
+        }
+        .left-back:hover { color: rgba(255,255,255,0.7); }
+
+        /* ── LADO DIREITO — formulário ── */
+        .right-panel {
+            background: var(--surface);
+            display: flex; align-items: center; justify-content: center;
+            padding: 48px;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            width: 100%; max-width: 380px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-header { margin-bottom: 32px; }
+        .form-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.8rem; font-weight: 400;
+            color: var(--text-1); letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+        .form-subtitle { font-size: 0.82rem; color: var(--text-3); }
+        .form-subtitle a { color: var(--blue); text-decoration: none; font-weight: 600; }
+        .form-subtitle a:hover { text-decoration: underline; }
+
+        /* Tabs login/cadastro */
+        .form-tabs {
+            display: flex;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 28px;
+            gap: 2px;
+        }
+        .form-tab {
+            flex: 1; padding: 8px;
+            border: none; background: none; border-radius: 7px;
+            font-size: 0.8rem; font-weight: 600;
+            color: var(--text-3); cursor: pointer;
+            transition: 0.15s ease; font-family: inherit;
+        }
+        .form-tab.active {
+            background: var(--surface); color: var(--text-1);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        /* Campos */
+        .field { margin-bottom: 16px; }
+        .field label {
+            display: block; font-size: 0.72rem; font-weight: 600;
+            color: var(--text-3); text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 6px;
+        }
+        .field-wrap {
+            position: relative; display: flex; align-items: center;
+        }
+        .field-icon {
+            position: absolute; left: 12px;
+            color: var(--text-3); font-size: 0.95rem; pointer-events: none;
+        }
+        .field input {
+            width: 100%; padding: 10px 12px 10px 36px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text-1);
+            font-size: 0.85rem; font-family: inherit;
+            outline: none; transition: 0.15s ease;
+        }
+        .field input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px var(--blue-light);
+            background: white;
+        }
+        .field input.error { border-color: var(--red); }
+        .field input.error:focus { box-shadow: 0 0 0 3px #fff0f3; }
+
+        .field-eye {
+            position: absolute; right: 12px;
+            background: none; border: none;
+            color: var(--text-3); cursor: pointer;
+            font-size: 0.95rem; padding: 4px;
+            transition: 0.15s ease;
+        }
+        .field-eye:hover { color: var(--text-1); }
+
+        .field-error {
+            font-size: 0.7rem; color: var(--red);
+            margin-top: 5px; display: flex; align-items: center; gap: 4px;
+        }
+
+        /* Força de senha */
+        .password-strength { margin-top: 8px; }
+        .strength-bar {
+            height: 3px; background: var(--border);
+            border-radius: 99px; overflow: hidden; margin-bottom: 4px;
+        }
+        .strength-fill {
+            height: 100%; border-radius: 99px; width: 0;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+        .strength-text { font-size: 0.67rem; color: var(--text-3); }
+
+        /* Row 2 cols */
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* Checkbox */
+        .field-check {
+            display: flex; align-items: flex-start; gap: 9px;
+            margin-bottom: 20px;
+        }
+        .field-check input[type="checkbox"] {
+            width: 16px; height: 16px; margin-top: 1px;
+            accent-color: var(--blue); cursor: pointer; flex-shrink: 0;
+        }
+        .field-check label {
+            font-size: 0.78rem; color: var(--text-2); cursor: pointer; line-height: 1.5;
+        }
+        .field-check a { color: var(--blue); text-decoration: none; }
+        .field-check a:hover { text-decoration: underline; }
+
+        /* Esqueci senha */
+        .forgot-link {
+            display: block; text-align: right;
+            font-size: 0.72rem; color: var(--blue); font-weight: 600;
+            text-decoration: none; margin-top: -10px; margin-bottom: 20px;
+        }
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Botão submit */
+        .btn-submit {
+            width: 100%; padding: 11px;
+            background: var(--blue); color: white; border: none;
+            border-radius: 8px; font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: 0.15s ease;
+            font-family: inherit; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+            box-shadow: 0 2px 10px rgba(107,159,255,0.3);
+        }
+        .btn-submit:hover { background: #5b8eee; box-shadow: 0 4px 16px rgba(107,159,255,0.4); transform: translateY(-1px); }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* Divider */
+        .divider {
+            display: flex; align-items: center; gap: 12px;
+            margin: 22px 0; color: var(--text-3); font-size: 0.72rem;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
+        }
+
+        /* Social buttons */
+        .social-btns { display: flex; gap: 10px; }
+        .btn-social {
+            flex: 1; padding: 9px;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+            color: var(--text-2); cursor: pointer;
+            transition: 0.15s ease; font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+        }
+        .btn-social:hover { background: white; border-color: var(--text-3); color: var(--text-1); }
+        .btn-social img { width: 16px; height: 16px; }
+
+        /* Alert de sucesso */
+        .alert-success {
+            background: var(--mint-light); border: 1px solid var(--mint-mid);
+            border-radius: 8px; padding: 12px 14px;
+            display: flex; align-items: center; gap: 9px;
+            font-size: 0.8rem; color: #047857; margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Spinner */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner {
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            animation: spin 0.7s linear infinite;
+        }
+
+        /* Campos extras do cadastro */
+        .only-cadastro { display: none; }
+        .mode-cadastro .only-cadastro { display: block; }
+        .mode-cadastro .only-login { display: none; }
+        .mode-cadastro .only-login-check { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- LADO ESQUERDO -->
+    <div class="left-panel">
+        <a href="landing.html" class="left-brand">
+            <div class="left-brand-icon"><i class="ph ph-house-line"></i></div>
+            <span class="left-brand-name">FamilyHub</span>
+        </a>
+
+        <div class="left-content">
+            <h1 class="left-title">
+                Sua família<br>em <em>sincronia</em>
+            </h1>
+            <p class="left-desc">
+                Gerencie compromissos, atividades e membros da família com uma interface limpa e intuitiva.
+            </p>
+            <div class="left-features">
+                <div class="left-feature">
+                    <div class="left-feature-icon blue"><i class="ph ph-calendar-blank"></i></div>
+                    <span class="left-feature-text">Calendário interativo com todos os compromissos</span>
+                </div>
+                <div class="left-feature">
+                    <div class="left-feature-icon rose"><i class="ph ph-bell-ringing"></i></div>
+                    <span class="left-feature-text">Notificações automáticas de compromissos</span>
+                </div>
+                <div class="left-feature">
+                    <div class="left-feature-icon mint"><i class="ph ph-users-three"></i></div>
+                    <span class="left-feature-text">Perfis individuais para cada membro da família</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-bottom">
+            <a href="landing.html" class="left-back">
+                <i class="ph ph-arrow-left"></i> Voltar para a página inicial
+            </a>
+        </div>
+    </div>
+
+    <!-- LADO DIREITO -->
+    <div class="right-panel">
+        <div class="form-container" id="form-container">
+
+            <div class="form-header">
+                <h2 class="form-title" id="form-title">Bem-vindo de volta</h2>
+                <p class="form-subtitle" id="form-subtitle">
+                    Não tem conta?
+                    <a href="#cadastro" onclick="setMode('cadastro'); return false;">Cadastre-se grátis</a>
+                </p>
+            </div>
+
+            <!-- TABS -->
+            <div class="form-tabs">
+                <button class="form-tab active" id="tab-login" onclick="setMode('login')">Entrar</button>
+                <button class="form-tab" id="tab-cadastro" onclick="setMode('cadastro')">Criar conta</button>
+            </div>
+
+            <!-- ALERTA DE SUCESSO -->
+            <div class="alert-success" id="alert-success" style="display:none">
+                <i class="ph ph-check-circle" style="font-size:1.1rem;flex-shrink:0"></i>
+                <span id="alert-success-text">Conta criada com sucesso!</span>
+            </div>
+
+            <form id="main-form" onsubmit="handleSubmit(event)" novalidate>
+
+                <!-- só no cadastro -->
+                <div class="field-row only-cadastro">
+                    <div class="field" id="field-nome">
+                        <label>Nome da Família</label>
+                        <div class="field-wrap">
+                            <i class="ph ph-user field-icon"></i>
+                            <input type="text" id="input-nome" placeholder="Nome da sua Família" autocomplete="given-name">
+                        </div>
+                        <div class="field-error" id="error-nome" style="display:none"><i class="ph ph-warning-circle"></i><span></span></div>
+                    </div>
+                    <div class="field" id="field-sobrenome">
+                        <label>Nome</label>
+                        <div class="field-wrap">
+                            <i class="ph ph-user field-icon"></i>
+                            <input type="text" id="input-sobrenome" placeholder="Nome" autocomplete="family-name">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- email — sempre visível -->
+                <div class="field">
+                    <label>E-mail</label>
+                    <div class="field-wrap">
+                        <i class="ph ph-envelope field-icon"></i>
+                        <input type="email" id="input-email" placeholder="seu@email.com" autocomplete="email">
+                    </div>
+                    <div class="field-error" id="error-email" style="display:none"><i class="ph ph-warning-circle"></i><span></span></div>
+                </div>
+
+                <!-- senha — sempre visível -->
+                <div class="field">
+                    <label>Senha</label>
+                    <div class="field-wrap">
+                        <i class="ph ph-lock-simple field-icon"></i>
+                        <input type="password" id="input-senha" placeholder="Sua senha" autocomplete="current-password" oninput="checkStrength()">
+                        <button type="button" class="field-eye" onclick="toggleSenha('input-senha', this)">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                    <div class="field-error" id="error-senha" style="display:none"><i class="ph ph-warning-circle"></i><span></span></div>
+                    <div class="password-strength only-cadastro" id="strength-wrap" style="display:none">
+                        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                        <span class="strength-text" id="strength-text"></span>
+                    </div>
+                </div>
+
+                <!-- confirmar senha — só no cadastro -->
+                <div class="field only-cadastro" id="field-confirm">
+                    <label>Confirmar senha</label>
+                    <div class="field-wrap">
+                        <i class="ph ph-lock-simple-open field-icon"></i>
+                        <input type="password" id="input-confirm" placeholder="Repita a senha" autocomplete="new-password">
+                        <button type="button" class="field-eye" onclick="toggleSenha('input-confirm', this)">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                    <div class="field-error" id="error-confirm" style="display:none"><i class="ph ph-warning-circle"></i><span></span></div>
+                </div>
+
+                <!-- link esqueci (só login) -->
+                <a href="#" class="forgot-link only-login" onclick="esqueceuSenha(); return false;">Esqueceu a senha?</a>
+
+                <!-- checkbox termos (só cadastro) -->
+                <div class="field-check only-cadastro" id="check-termos-wrap">
+                    <input type="checkbox" id="check-termos">
+                    <label for="check-termos">
+                        Li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de Privacidade</a>
+                    </label>
+                </div>
+
+                <!-- checkbox lembrar (só login) -->
+                <div class="field-check only-login-check" style="margin-bottom:20px">
+                    <input type="checkbox" id="check-lembrar">
+                    <label for="check-lembrar">Lembrar de mim neste dispositivo</label>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btn-submit">
+                    <i class="ph ph-sign-in"></i>
+                    <span id="btn-submit-text">Entrar</span>
+                </button>
+
+            </form>
+
+ 
+        </div>
+    </div>
+
+    <script>
+        let modoAtual = 'login';
+
+        // Detecta hash na URL para abrir cadastro direto
+        if (window.location.hash === '#cadastro') setMode('cadastro');
+
+        function setMode(mode) {
+            modoAtual = mode;
+            const container = document.getElementById('form-container');
+            const tabLogin   = document.getElementById('tab-login');
+            const tabCad     = document.getElementById('tab-cadastro');
+            const title      = document.getElementById('form-title');
+            const subtitle   = document.getElementById('form-subtitle');
+            const btnText    = document.getElementById('btn-submit-text');
+            const btnIcon    = document.querySelector('#btn-submit i');
+            const strengthWrap = document.getElementById('strength-wrap');
+
+            // Limpa erros e alerta
+            document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
+            document.querySelectorAll('.field input').forEach(i => i.classList.remove('error'));
+            document.getElementById('alert-success').style.display = 'none';
+
+            if (mode === 'cadastro') {
+                container.classList.add('mode-cadastro');
+                tabLogin.classList.remove('active');
+                tabCad.classList.add('active');
+                title.textContent = 'Criar conta';
+                subtitle.innerHTML = 'Já tem conta? <a href="#" onclick="setMode(\'login\'); return false;">Entrar</a>';
+                btnText.textContent = 'Criar conta';
+                btnIcon.className = 'ph ph-user-plus';
+                if (strengthWrap) strengthWrap.style.display = 'block';
+                document.getElementById('input-senha').setAttribute('autocomplete', 'new-password');
+            } else {
+                container.classList.remove('mode-cadastro');
+                tabLogin.classList.add('active');
+                tabCad.classList.remove('active');
+                title.textContent = 'Bem-vindo de volta';
+                subtitle.innerHTML = 'Não tem conta? <a href="#" onclick="setMode(\'cadastro\'); return false;">Cadastre-se grátis</a>';
+                btnText.textContent = 'Entrar';
+                btnIcon.className = 'ph ph-sign-in';
+                if (strengthWrap) strengthWrap.style.display = 'none';
+                document.getElementById('input-senha').setAttribute('autocomplete', 'current-password');
+            }
+        }
+
+        const API_URL = 'http://localhost/Dev_2o_Ano/familyhub/FamilyHub/backend/index.php';
+
+        // async = esta funcao usa await (operacoes que demoram)
+        async function handleSubmit(e) {
+            e.preventDefault();
+            if (!validar()) return;
+
+            // desabilita o botao e mostra spinner de carregamento
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner"></div>';
+
+            // decide qual rota do backend chamar
+            try {
+                const endpoint = modoAtual === 'cadastro' ? '/auth/cadastro' : '/auth/login';
+                const body = modoAtual === 'cadastro'
+                    ? { nome: document.getElementById('input-nome').value.trim(),
+                        email: document.getElementById('input-email').value.trim(),
+                        senha: document.getElementById('input-senha').value }
+                    : { email: document.getElementById('input-email').value.trim(),
+                        senha: document.getElementById('input-senha').value };
+
+
+                // envia a requisicao para o backend PHP
+                // fetch = faz uma requisicao HTTP (como o JS 'conversa' com o servidor)
+                // await = faz o codigo pausar e esperar a resposta do servidor
+                const res  = await fetch(API_URL + '?rota=' + endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.erro || 'Erro ao autenticar.');
+
+                // salva o token e dados do usuario no localStorage
+                // localStorage = memoria do navegador que persiste ao fechar
+
+                localStorage.setItem('ff_token',   data.token);
+                localStorage.setItem('ff_usuario', JSON.stringify(data.usuario));
+
+                // mostra mensagem de sucesso
+                document.getElementById('alert-success').style.display = 'flex';
+                document.getElementById('alert-success-text').textContent =
+                    modoAtual === 'cadastro'
+                        ? `Conta criada! Bem-vindo(a), ${data.usuario.nome}! Redirecionando...`
+                        : `Bem-vindo(a) de volta, ${data.usuario.nome}!`;
+
+                // aguarda 1.2 segundos e redireciona
+                setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+
+                // Se QUALQUER coisa der errado (rede, senha errada, servidor),
+                // o catch captura o erro e faz o tratamento
+            } catch (err) {
+                
+                // Reabilita o botao
+                btn.disabled = false;
+                btn.innerHTML = `<i class="ph ${modoAtual === 'cadastro' ? 'ph-user-plus' : 'ph-sign-in'}"></i><span id="btn-submit-text">${modoAtual === 'cadastro' ? 'Criar conta' : 'Entrar'}</span>`;
+                
+                // Mostra o erro em vermelho abaixo do campo de email
+                showError('error-email', 'input-email', err.message);
+            }
+        }
+
+        function validar() {
+            let ok = true;
+            const email = document.getElementById('input-email').value.trim();
+            const senha = document.getElementById('input-senha').value;
+
+            clearErrors();
+
+            if (modoAtual === 'cadastro') {
+                const nome = document.getElementById('input-nome').value.trim();
+                if (!nome) { showError('error-nome', 'input-nome', 'Informe seu nome'); ok = false; }
+            }
+
+            if (!email) {
+                showError('error-email', 'input-email', 'Informe seu e-mail'); ok = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError('error-email', 'input-email', 'E-mail inválido'); ok = false;
+            }
+
+            if (!senha) {
+                showError('error-senha', 'input-senha', 'Informe sua senha'); ok = false;
+            } else if (modoAtual === 'cadastro' && senha.length < 6) {
+                showError('error-senha', 'input-senha', 'Mínimo de 6 caracteres'); ok = false;
+            }
+
+            if (modoAtual === 'cadastro') {
+                const confirm = document.getElementById('input-confirm').value;
+                if (!confirm) {
+                    showError('error-confirm', 'input-confirm', 'Confirme sua senha'); ok = false;
+                } else if (senha !== confirm) {
+                    showError('error-confirm', 'input-confirm', 'As senhas não coincidem'); ok = false;
+                }
+                if (!document.getElementById('check-termos').checked) {
+                    alert('Você precisa aceitar os Termos de Uso para continuar.'); ok = false;
+                }
+            }
+
+            return ok;
+        }
+
+        function showError(errorId, inputId, msg) {
+            const errEl = document.getElementById(errorId);
+            errEl.style.display = 'flex';
+            errEl.querySelector('span').textContent = msg;
+            document.getElementById(inputId)?.classList.add('error');
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
+            document.querySelectorAll('.field input').forEach(i => i.classList.remove('error'));
+        }
+
+        function toggleSenha(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const isText = input.type === 'text';
+            input.type = isText ? 'password' : 'text';
+            btn.querySelector('i').className = isText ? 'ph ph-eye' : 'ph ph-eye-slash';
+        }
+
+        function checkStrength() {
+            if (modoAtual !== 'cadastro') return;
+            const senha = document.getElementById('input-senha').value;
+            const fill  = document.getElementById('strength-fill');
+            const text  = document.getElementById('strength-text');
+            if (!senha) { fill.style.width = '0'; text.textContent = ''; return; }
+
+            let score = 0;
+            if (senha.length >= 6)  score++;
+            if (senha.length >= 10) score++;
+            if (/[A-Z]/.test(senha)) score++;
+            if (/[0-9]/.test(senha)) score++;
+            if (/[^A-Za-z0-9]/.test(senha)) score++;
+
+            const levels = [
+                { w: '20%', c: '#fb7185', t: 'Muito fraca' },
+                { w: '40%', c: '#ffb347', t: 'Fraca' },
+                { w: '60%', c: '#ffb347', t: 'Razoável' },
+                { w: '80%', c: '#52c4a0', t: 'Boa' },
+                { w: '100%',c: '#52c4a0', t: 'Forte' },
+            ];
+            const lv = levels[Math.min(score - 1, 4)] || levels[0];
+            fill.style.width = lv.w;
+            fill.style.background = lv.c;
+            text.textContent = lv.t;
+            text.style.color = lv.c;
+        }
+
+        function esqueceuSenha() {
+            const email = document.getElementById('input-email').value.trim();
+            if (!email) {
+                showError('error-email', 'input-email', 'Informe seu e-mail primeiro');
+                return;
+            }
+            const alertEl = document.getElementById('alert-success');
+            alertEl.style.display = 'flex';
+            document.getElementById('alert-success-text').textContent = `Se o e-mail "${email}" estiver cadastrado, você receberá um link para redefinir a senha.`;
+        }
+
+        function loginSocial(provider) {
+            alert(`Login com ${provider} requer integração OAuth. Configure no backend.`);
+        }
+    </script>
+</body>
+</html>
